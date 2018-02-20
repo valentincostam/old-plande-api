@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  h1= title
+  p
+    a(href="/carreras") Todas las carreras
+  p
+    a(href=`/carreras/${carrera.alias}/materias/agregar`) Agregar materia a la carrera
+
+  if locals.flashes
+    p #{JSON.stringify(locals.flashes)}
+
+  if error
+    p Hubo un error.
+  else
+    table
+      tr
+        td Acciones
+        td
+          a(href=`/carreras/${carrera.alias}/eliminar`) 🚽
+          a(href=`/carreras/${carrera.alias}/editar`) 📝
+      tr 
+        td Nombre
+        td #{carrera.nombre}
+      tr
+        td Años
+        td #{carrera.anos}
+      tr
+        td Alias
+        td #{carrera.alias}
+  h2 Materias
+  table
+    thead
+      tr
+        th 
+        th 
+        th 
+        th Nombre
+        th Año
+        th Cuatrimestre
+        th ¿Es anual?
+        th Horas
+        th Etiqueta
+    each materia in carrera.materias
+      tr
+        td: a(href=`/carreras/${carrera.alias}/materias/${materia.id}/eliminar` ) 🚽
+        td: a(href=`/carreras/${carrera.alias}/materias/${materia.id}/editar` ) 📝
+        td: a(href=`/carreras/${carrera.alias}/materias/${materia.id}` ) 🔍
+        td #{materia.nombre}
+        td #{materia.ano}
+        td #{materia.esAnual ? '-' : materia.cuatrimestre}
+        td #{materia.esAnual ? 'Sí' : 'No'}
+        td #{materia.horas}
+        td #{materia.etiqueta == 'ninguna' ? '-' : materia.etiqueta}

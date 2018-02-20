@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p
+    a(href="/carreras") Carreras
+
+  if locals.flashes
+    p #{JSON.stringify(locals.flashes)}
+
+  - const endpoint = carrera ? `/carreras/editar/${carrera.alias}` : '/carreras/agregar'
+  - const carreraAEditar = carrera || {}
+
+  form(action=endpoint method="POST")
+    div
+      label(for="nombre") Nombre
+      input#nombre(type="text" name="nombre" value=carreraAEditar.nombre)
+    div
+      label(for="anos") Años
+      input#anos(type="number" name="anos" step="1" min="1" max="6" value=carreraAEditar.anos)
+    div
+      label(for="alias") Alias
+      input#alias(type="text" name="alias" value=carreraAEditar.alias)
+    div
+      input(type="submit" value="Guardar")

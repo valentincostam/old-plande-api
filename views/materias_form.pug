@@ -1,0 +1,80 @@
+extends layout
+
+block content
+  h1= title
+  p
+    a(href=`/carreras/${carrera.alias}`) Volver
+
+  if locals.flashes
+    p #{JSON.stringify(locals.flashes)}
+
+  -
+    const path = materia
+      ? `/carreras/${carrera.alias}/materias/${materia.id}/editar`
+      : `/carreras/${carrera.alias}/materias/agregar`
+  
+  - const materiaAEditar = materia || {}
+
+  form(action=path method="POST")
+    div
+      label(for="nombre") Nombre
+      input#nombre(type="text" name="nombre" value=materiaAEditar.nombre)
+    div
+      label(for="horas") Horas semanales
+      input#horas(type="number" name="horas" step="1" min="1" value=materiaAEditar.horas)
+    div
+      label(for="esAnual") ¿Es anual?
+      input#esAnual(type="checkbox" name="esAnual" value="true" checked=materiaAEditar.esAnual)
+    div
+      label(for="ano") Año
+      input#ano(type="number" name="ano" step="1" min="1" max=carrera.anos value=materiaAEditar.ano)
+    div
+      label(for="cuatrimestre") Cuatrimestre
+      input#cuatrimestre(type="number" name="cuatrimestre" step="1" min="1" max="2" value=materiaAEditar.cuatrimestre)
+    div
+      input#carrera(type="hidden" name="carrera" value=carrera.id)
+    div
+      p Etiqueta:
+      each etiqueta in listEtiquetas
+        input(
+          type="radio"
+          name="etiqueta"
+          id=etiqueta
+          value=etiqueta
+          checked= materiaAEditar.etiqueta
+            ? materiaAEditar.etiqueta == etiqueta
+            : etiqueta == 'ninguna'
+        )
+        label(for=etiqueta) #{etiqueta}
+        br
+    div
+      p Correlativas:
+      table
+        tr
+          td
+            label(for="necesitaRegular") Necesita regular
+          td 
+            label(for="necesitaAprobada") Necesita aprobada
+        tr
+          td
+            select#necesitaRegular(name="necesitaRegular" multiple size="8")
+              each materia in carrera.materias
+                option(
+                  value=materia.id
+                  selected=(materiaAEditar.necesitaRegular
+                    ? materiaAEditar.necesitaRegular.some(correlativa => correlativa.id == materia.id)
+                    : false)
+                  disabled=(materiaAEditar.id ? materia.id == materiaAEditar.id : false)
+                ) #{materia.nombre}
+          td
+            select#necesitaAprobada(name="necesitaAprobada" multiple size="8")
+              each materia in carrera.materias
+                option(
+                  value=materia.id
+                  selected=(materiaAEditar.necesitaAprobada
+                    ? materiaAEditar.necesitaAprobada.some(correlativa => correlativa.id == materia.id)
+                    : false)
+                  disabled=(materiaAEditar.id ? materia.id == materiaAEditar.id : false)
+                ) #{materia.nombre}
+    div
+      input(type="submit" value="Guardar")
