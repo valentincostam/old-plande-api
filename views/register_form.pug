@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+  //- p
+  //-   a(href=`/carreras/${carrera.alias}`) Volver
+
+  if locals.flashes
+    p #{JSON.stringify(locals.flashes)}
+
+  //- -
+  //-   const path = materia
+  //-     ? `/carreras/${carrera.alias}/materias/${materia.id}/editar`
+  //-     : `/carreras/${carrera.alias}/materias/agregar`
+  
+  form(action='/usuarios/registro' method="POST")
+    div
+      label(for="name") Nombre
+      input#name(type="text" name="name")
+    div
+      label(for="email") Email
+      input#email(type="email" name="email")
+    div
+      label(for="password") Contraseña
+      input#password(type="password" name="password")
+    div
+      label(for="password-confirm") Repetir contraseña
+      input#password-confirm(type="password" name="password-confirm")
+    div
+      input(type="submit" value="Registrarse")

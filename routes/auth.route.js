@@ -4,13 +4,13 @@ const { asyncHandler } = require('../handlers/errorHandlers')
 
 const router = express.Router()
 
-router.get('/register', controller.registerForm)
-router.post('/register',
+router.get('/registro', controller.registerForm)
+router.post('/registro',
   controller.validateRegister,
   controller.register,
   controller.login)
-router.get('/login', controller.loginForm)
-router.post('/login', controller.login)
-router.get('/logout', controller.logout)
+router.get('/ingresar', controller.loginForm)
+router.post('/ingresar', controller.login)
+router.get('/salir', controller.logout)
 
 module.exports = router
