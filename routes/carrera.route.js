@@ -1,9 +1,12 @@
 const express = require('express')
 const controller = require('../controllers/carrera.controller')
+const auth = require('../controllers/auth.controller')
 const materiaRoutes = require('./materia.route')
 const { asyncHandler } = require('../handlers/errorHandlers')
 
 const router = express.Router()
+
+router.use(auth.isLoggedIn)
 
 router.param('alias', asyncHandler(controller.load))
 

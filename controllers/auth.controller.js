@@ -57,3 +57,9 @@ exports.logout = (req, res) => {
   req.flash('success', 'Has salido.')
   res.redirect('/')
 }
+
+exports.isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) return next()
+  req.flash('error', 'Debe haber ingresado para poder acceder aquí.');
+  res.redirect('/usuarios/ingresar');
+};
