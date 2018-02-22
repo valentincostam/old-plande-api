@@ -10,6 +10,8 @@ const sassMiddleware = require('node-sass-middleware')
 const mongoose = require('mongoose')
 const routes = require('./routes')
 const errorHandlers = require('./handlers/errorHandlers')
+const passport = require('passport')
+const User = require('./models/user.model')
 
 const app = express()
 
@@ -32,6 +34,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }))
+
+// Configure passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(User.createStrategy())
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),

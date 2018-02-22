@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/registro', controller.registerForm)
 router.post('/registro',
   controller.validateRegister,
-  controller.register,
+  asyncHandler(controller.register),
   controller.login)
 router.get('/ingresar', controller.loginForm)
 router.post('/ingresar', controller.login)

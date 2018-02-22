@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
-const bcrypt = require('bcryptjs')
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = mongoose.Schema({
   email: {
@@ -11,12 +11,6 @@ const UserSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
   },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-    maxlength: 128,
-  },
   name: {
     type: String,
     maxlength: 128,
@@ -25,17 +19,16 @@ const UserSchema = mongoose.Schema({
   }
 })
 
-// Para validar la unicidad del campo 'nombre' y mostrar un mensaje de error.
 UserSchema.plugin(uniqueValidator, { message: 'Ya existe un usuario con ese email.' })
+UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
-UserSchema.pre('save', async function save(next) {
-  try {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 9);
-    return next();
-  } catch (error) {
-    return next(error);
-  }
-});
+UserSchema.statics.registerAsync = function (data, password) {
+  return new Promise((resolve, reject) => {
+    this.register(data, password, (err, user) => {
+      if (err) return reject(err);
+      resolve(user);
+    });
+  });
+};
 
 module.exports = mongoose.model('User', UserSchema)

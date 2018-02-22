@@ -1,9 +1,13 @@
 const User = require('../models/user.model')
+const passport = require('passport')
 const { check, validationResult } = require('express-validator/check')
 const { matchedData, sanitize } = require('express-validator/filter')
 
 exports.registerForm = (req, res) => 
   res.render('register_form', { title: 'Registro' })
+
+exports.loginForm = (req, res) =>
+  res.render('login_form', { title: 'Ingresar' })
 
 exports.validateRegister = [
   check('name', 'Ingresa un nombre de usuario.')
@@ -24,29 +28,28 @@ exports.validateRegister = [
     .custom((value, { req }) => value === req.body.password),
 
   (req, res, next) => {
-    // Get the validation result whenever you want; see the Validation Result API for all options!
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      req.flash('error', errors.array().map(err => err.msg));
-      return res.redirect('back')
-      
-      // return res.status(422).json({ errors: errors.mapped() });
+      req.flash('error', errors.array().map(err => err.msg))
+      return res.redirect('back')      
     }
-  
-    // matchedData returns only the subset of data validated by the middleware
-    const user = matchedData(req);
-    // createUser(user).then(user => res.json(user));
-    console.log('> Salió todo bien:', user)
+    
     next()
   }
 ]
 
 exports.register = async (req, res, next) => {
-  const user = await (new User(req.body)).save()
+  const newUser = new User({ email: req.body.email, name: req.body.name })
+  await User.registerAsync(newUser, req.body.password)
   next()
 }
-exports.login = (req, res) => res.send('OK')
-exports.loginForm = (req, res) => res.send('OK')
-exports.login = (req, res) => res.send('OK')
+
+exports.login = passport.authenticate('local', {
+  failureRedirect: '/usuarios/ingresar',
+  failureFlash: 'Email y/o contraseña incorrectos.',
+  successRedirect: '/carreras',
+  successFlash: '¡Bienvenido!'
+});
+
 exports.logout = (req, res) => res.send('OK')
