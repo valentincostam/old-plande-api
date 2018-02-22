@@ -4,6 +4,7 @@ const authRoutes = require('./auth.route')
 
 const router = express.Router()
 
+router.get('/', (req, res) => res.render('index', { title: 'Inicio' }))
 router.use('/carreras', carreraRoutes)
 router.use('/usuarios', authRoutes)
 

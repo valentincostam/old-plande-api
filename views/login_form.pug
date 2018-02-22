@@ -3,9 +3,6 @@ extends layout
 block content
   h1= title
 
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
-  
   form(action='/usuarios/ingresar' method="POST")
     div
       label(for="email") Email

@@ -2,16 +2,6 @@ extends layout
 
 block content
   h1= title
-  //- p
-  //-   a(href=`/carreras/${carrera.alias}`) Volver
-
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
-
-  //- -
-  //-   const path = materia
-  //-     ? `/carreras/${carrera.alias}/materias/${materia.id}/editar`
-  //-     : `/carreras/${carrera.alias}/materias/agregar`
   
   form(action='/usuarios/registro' method="POST")
     div

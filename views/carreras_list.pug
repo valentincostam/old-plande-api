@@ -2,27 +2,22 @@ extends layout
 
 block content
   h1= title
-  p
-    a(href="/carreras/agregar") Agregar carrera
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
-  if error
-    p Hubo un error.
-  else
-    table
-      thead
-        tr
-          th 
-          th 
-          th 
-          th Nombre
-          th Años
-          th Alias
-      each carrera in listCarreras
-        tr
-          td: a(href=`/carreras/${carrera.alias}/eliminar` ) 🚽
-          td: a(href=`/carreras/${carrera.alias}/editar` ) 📝
-          td: a(href=`/carreras/${carrera.alias}` ) 🔍
-          td #{carrera.nombre}
-          td #{carrera.anos}
-          td #{carrera.alias}
+  p: a(href="/carreras/agregar") Agregar carrera
+
+  table
+    thead
+      tr
+        th 
+        th 
+        th 
+        th Nombre
+        th Años
+        th Alias
+    each carrera in listCarreras
+      tr
+        td: a(href=`/carreras/${carrera.alias}/eliminar` ) 🚽
+        td: a(href=`/carreras/${carrera.alias}/editar` ) 📝
+        td: a(href=`/carreras/${carrera.alias}` ) 🔍
+        td #{carrera.nombre}
+        td #{carrera.anos}
+        td #{carrera.alias}

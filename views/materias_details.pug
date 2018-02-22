@@ -2,53 +2,45 @@ extends layout
 
 block content
   h1= title
-  p
-    a(href=`/carreras/${carrera.alias}/`) Todas las materias
-  p
-    a(href=`/carreras/${carrera.alias}/materias/agregar`) Agregar materia
+  p: a(href=`/carreras/${carrera.alias}/`) Todas las materias
+  p: a(href=`/carreras/${carrera.alias}/materias/agregar`) Agregar materia
     
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
-
-  if error
-    p Hubo un error.
-  else
-    table
-      tr
-        td Acciones
-        td
-          a(href=`/carreras/${carrera.alias}/materias/${materia.id}/eliminar` ) 🚽
-          a(href=`/carreras/${carrera.alias}/materias/${materia.id}/editar` ) 📝
-      tr
-        td Nombre
-        td #{materia.nombre}
-      tr
-        td Año
-        td #{materia.ano}
-      tr
-        td Cuatrimestre
-        td #{materia.esAnual ? '-' : materia.cuatrimestre}
-      tr
-        td ¿Es anual?
-        td #{materia.esAnual ? 'Sí' : 'No'}
-      tr
-        td Horas
-        td #{materia.horas}
-      tr
-        td Etiqueta
-        td #{materia.etiqueta == 'ninguna' ? '-' : materia.etiqueta}
-      tr
-        td Carrera          
-        td #{materia.carrera ? materia.carrera.nombre : '-'}
-      tr
-        td Necesita regular
-        td
-          ul
-            each correlativa in materia.necesitaRegular
-              li #{correlativa.nombre}
-      tr
-        td Necesita aprobada
-        td
-          ul
-            each correlativa in materia.necesitaAprobada
-              li #{correlativa.nombre}
+  table
+    tr
+      td Acciones
+      td
+        a(href=`/carreras/${carrera.alias}/materias/${materia.id}/eliminar` ) 🚽
+        a(href=`/carreras/${carrera.alias}/materias/${materia.id}/editar` ) 📝
+    tr
+      td Nombre
+      td #{materia.nombre}
+    tr
+      td Año
+      td #{materia.ano}
+    tr
+      td Cuatrimestre
+      td #{materia.esAnual ? '-' : materia.cuatrimestre}
+    tr
+      td ¿Es anual?
+      td #{materia.esAnual ? 'Sí' : 'No'}
+    tr
+      td Horas
+      td #{materia.horas}
+    tr
+      td Etiqueta
+      td #{materia.etiqueta == 'ninguna' ? '-' : materia.etiqueta}
+    tr
+      td Carrera          
+      td #{materia.carrera ? materia.carrera.nombre : '-'}
+    tr
+      td Necesita regular
+      td
+        ul
+          each correlativa in materia.necesitaRegular
+            li #{correlativa.nombre}
+    tr
+      td Necesita aprobada
+      td
+        ul
+          each correlativa in materia.necesitaAprobada
+            li #{correlativa.nombre}

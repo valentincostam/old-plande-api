@@ -2,11 +2,7 @@ extends layout
 
 block content
   h1= title
-  p
-    a(href=`/carreras/${carrera.alias}`) Volver
-
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
+  p: a(href=`/carreras/${carrera.alias}`) Volver
 
   -
     const path = materia

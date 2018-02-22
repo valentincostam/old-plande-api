@@ -2,32 +2,25 @@ extends layout
 
 block content
   h1= title
-  p
-    a(href="/carreras") Todas las carreras
-  p
-    a(href=`/carreras/${carrera.alias}/materias/agregar`) Agregar materia a la carrera
+  p: a(href="/carreras") Todas las carreras
+  p: a(href=`/carreras/${carrera.alias}/materias/agregar`) Agregar materia a la carrera
 
-  if locals.flashes
-    p #{JSON.stringify(locals.flashes)}
-
-  if error
-    p Hubo un error.
-  else
-    table
-      tr
-        td Acciones
-        td
-          a(href=`/carreras/${carrera.alias}/eliminar`) 🚽
-          a(href=`/carreras/${carrera.alias}/editar`) 📝
-      tr 
-        td Nombre
-        td #{carrera.nombre}
-      tr
-        td Años
-        td #{carrera.anos}
-      tr
-        td Alias
-        td #{carrera.alias}
+  table
+    tr
+      td Acciones
+      td
+        a(href=`/carreras/${carrera.alias}/eliminar`) 🚽
+        a(href=`/carreras/${carrera.alias}/editar`) 📝
+    tr 
+      td Nombre
+      td #{carrera.nombre}
+    tr
+      td Años
+      td #{carrera.anos}
+    tr
+      td Alias
+      td #{carrera.alias}
+      
   h2 Materias
   table
     thead
