@@ -16,7 +16,9 @@ const UserSchema = mongoose.Schema({
     maxlength: 128,
     index: true,
     trim: true,
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 })
 
 UserSchema.plugin(uniqueValidator, { message: 'Ya existe un usuario con ese email.' })

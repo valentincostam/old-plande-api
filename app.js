@@ -15,9 +15,10 @@ const User = require('./models/user.model')
 
 const app = express()
 
+require('dotenv').config()
+
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/plan-de-estudios')
-// mongoose.connect('mongodb://localhost:27017/plan-de-estudios', { autoIndex: false })
+mongoose.connect(process.env.DATABASE)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -30,7 +31,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(session({
-  secret: 'vale',
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
 }))
@@ -59,19 +60,12 @@ app.use((req, res, next) => {
 
 app.use('/', routes)
 
-// If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound)
-
-// One of our error handlers will see if these errors are just validation errors
 app.use(errorHandlers.flashValidationErrors)
 
-// Otherwise this was a really bad error we didn't expect! Shoot eh
-if (app.get('env') === 'development') {
-  /* Development Error Handler - Prints stack trace */
+if (app.get('env') === 'development')
   app.use(errorHandlers.developmentErrors)
-}
-
-// production error handler
+  
 app.use(errorHandlers.productionErrors)
 
 module.exports = app
