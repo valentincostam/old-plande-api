@@ -1,13 +1,15 @@
 const User = require('../models/user.model')
 const passport = require('passport')
 const { check, validationResult } = require('express-validator/check')
-const { matchedData, sanitize } = require('express-validator/filter')
 
 exports.registerForm = (req, res) => 
   res.render('register_form', { title: 'Registro' })
 
 exports.loginForm = (req, res) =>
   res.render('login_form', { title: 'Ingresar' })
+
+exports.accountForm = (req, res) =>
+  res.render('account_form', { title: 'Ingresar' })
 
 exports.validateRegister = [
   check('name', 'Ingresa un nombre de usuario.')
@@ -62,4 +64,12 @@ exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next()
   req.flash('error', 'Debe haber ingresado para poder acceder aquí.');
   res.redirect('/usuarios/ingresar');
+};
+
+exports.updateAccount = async (req, res) => {
+  const user = await User.findById(req.user._id)
+  user.set(req.body)
+  await user.save()
+  req.flash('success', 'Cuenta modificada exitosamente.');
+  res.redirect('back');
 };

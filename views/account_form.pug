@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+
+  form(action='/usuarios/cuenta' method="POST")
+    div
+      label(for="name") Nombre
+      input#name(type="text" name="name" value=user.name)
+    div
+      label(for="email") Email
+      input#email(type="email" name="email" value=user.email)
+    div
+      input(type="submit" value="Guardar")

@@ -9,6 +9,8 @@ router.post('/registro',
   controller.validateRegister,
   asyncHandler(controller.register),
   controller.login)
+router.get('/cuenta', controller.isLoggedIn, controller.accountForm)
+router.post('/cuenta', controller.updateAccount)
 router.get('/ingresar', controller.loginForm)
 router.post('/ingresar', controller.login)
 router.get('/salir', controller.logout)
